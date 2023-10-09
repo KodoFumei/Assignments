@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop 5 / Assignment 1</title>
+    <style>
+        .error {
+            color: black;
+        }
+
+        .highlight {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+
+<form name="emailForm" onsubmit="return validateForm();">
+    <div class="no-border">
+        <label>Email address:<br>
+            <input type="text" id="email"><span id="emailError" class="error"></span><br>
+        </label>
+    </div>
+    <div class="no-border">
+        <label>Comment:<br>
+            <textarea name="comment" id="comment"></textarea><span id="commentError" class="error"></span><br>
+    </div>
+    <br>
+    <button type="submit" onclick="submitForm()">Submit</button>
+</form>
+
+<script>
+    function validateForm() {
+        document.getElementById('emailError').innerHTML = '';
+        document.getElementById('commentError').innerHTML = '';
+        document.getElementById('email').classList.remove('highlight');
+        document.getElementById('comment').classList.remove('highlight');
+
+        var email = document.getElementById('email').value;
+        var comment = document.getElementById('comment').value;
+
+        if (email.length < 6 || email.length >= 15 || email.indexOf('@') === -1) {
+            document.getElementById('emailError').innerHTML = 'Email should be 6 to 15 characters long and contain @';
+            document.getElementById('email').classList.add('highlight');
+            return false;
+        }
+        if (comment.trim() === '' || comment.length > 50) {
+            document.getElementById('commentError').innerHTML = 'Comment should not be empty and should be less than 50 characters';
+            document.getElementById('comment').classList.add('highlight');
+            return false;
+        }
+        alert('Email: ' + email + '\nComment: ' + comment);
+
+        return false;
+    }
+</script>
+
+</body>
+</html>

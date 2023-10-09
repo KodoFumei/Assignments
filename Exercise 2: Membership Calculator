@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Membership Calculator</title>
+    <style>
+        .discount-text {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<form name="membershipForm" onsubmit="return calculateCosts();">
+    <div class="no-border">
+        <label>Membership Type:<br>
+            <select id="membershipType" onchange="calculateCosts()">
+                <option value="basic">Basic - 10.00€</option>
+                <option value="premium">Premium - 15.00€</option>
+                <option value="gold">Gold - 20.00€</option>
+                <option value="platinum">Platinum - 25.00€</option>
+            </select>
+        </label>
+    </div>
+    <div class="no-border">
+        <label>Years:<br>
+            <input type="number" id="years" min="1" onchange="calculateCosts()">
+        </label>
+    </div>
+    <div class="no-border">
+        <label>Costs:<br>
+            <input type="text" id="costs" readonly>
+        </label>
+    </div>
+    <div id="discountText" class="discount-text"></div>
+    <br>
+    <button type="submit">Calculate</button>
+</form>
+
+<script>
+    function calculateCosts() {
+
+        var membershipType = document.getElementById('membershipType').value;
+        var years = parseInt(document.getElementById('years').value);
+
+        var costPerYear = 0;
+        switch (membershipType) {
+            case 'basic':
+                costPerYear = 10;
+                break;
+            case 'premium':
+                costPerYear = 15;
+                break;
+            case 'gold':
+                costPerYear = 20;
+                break;
+            case 'platinum':
+                costPerYear = 25;
+                break;    
+        }
+
+        var totalCosts = costPerYear * years;
+        var discountText = '';
+
+        if (years > 2) {
+            var discountPercentage = (years >= 5) ? 25 : 20;
+            var discountAmount = totalCosts * (discountPercentage / 100);
+            totalCosts -= discountAmount;
+            discountText = `You get a ${discountPercentage}% discount!`;
+
+            if (years >= 5) {
+                totalCosts -= 5;
+                discountText += ' You also get an extra €5 discount!';
+            }
+        }
+
+        document.getElementById('costs').value = totalCosts.toFixed(2);
+
+        document.getElementById('discountText').innerHTML = discountText;
+
+        return false;
+    }
+</script>
+
+</body>
+</html>
 

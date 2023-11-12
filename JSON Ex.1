@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Exercise 1</title>
+</head>
+<body>
+  <h1>JSON Exercise 1</h1>
+  <button id="showFirstLastNameButton">Show First and Last Name</button>
+  <button id="showAllDataButton">Show All Data</button>
+  <div id="jsonDataDisplay"></div>
+
+  <script>
+   
+    var text = '{ "employees" : [' +
+      '{ "firstName":"John" , "lastName":"Doe" },' +
+      '{ "firstName":"Anna" , "lastName":"Smith" },' +
+      '{ "firstName":"Peter" , "lastName":"Jones" } ]}';
+
+    var jsonData = JSON.parse(text);
+
+    document.getElementById("showFirstLastNameButton").addEventListener("click", function() {
+      var jsonDataDisplay = document.getElementById("jsonDataDisplay");
+      jsonDataDisplay.innerHTML = ''; 
+
+      jsonData.employees.forEach(function(employee) {
+        var nameElement = document.createElement("p");
+        nameElement.textContent = "First Name: " + employee.firstName + ", Last Name: " + employee.lastName;
+        jsonDataDisplay.appendChild(nameElement);
+      });
+    });
+
+
+    document.getElementById("showAllDataButton").addEventListener("click", function() {
+      var jsonDataDisplay = document.getElementById("jsonDataDisplay");
+      jsonDataDisplay.innerHTML = ''; 
+
+      jsonData.employees.forEach(function(employee) {
+        var dataElement = document.createElement("p");
+        dataElement.textContent = "First Name: " + employee.firstName + ", Last Name: " + employee.lastName;
+        jsonDataDisplay.appendChild(dataElement);
+      });
+    });
+  </script>
+</body>
+</html>

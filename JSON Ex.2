@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Exercise 2</title>
+  
+</head>
+<body>
+  <h2>Exercise 2: Parsing JSON from web</h2>
+  <p>Below you see two buttons. Edit the source code and add onClick-events to these buttons. Add functionality to these as described below.</p>
+  <p>
+    <button onclick="loadRawData()">Load raw data</button>
+    <button onclick="loadAndParseData()">Load and parse the data</button>
+  </p>
+
+  <ul>
+    <li>The first button should run a JavaScript-function, which will load the given <a href="http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750">JSON file from the web </a>and display the raw contents of it on the DIV-below (id=rawdata). Use Developer tools (F12) to track the AJAX call and study the headers, execution times etc.</li>
+    <li> The second button should run a function, will load the same data, but will parse the data out and display it as a table.</li>
+    <li> After you have managed to get the data out, try to load the pictures to the page as well.</li>
+  </ul>
+  <div id="rawdata">Raw data goes here.</div>
+
+  <hr/>
+  <script>
+    function loadRawData() {
+      var rawdataDiv = document.getElementById('rawdata');
+      var xhr = new XMLHttpRequest();
+      
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          rawdataDiv.innerHTML = xhr.responseText;
+        }
+      };
+
+      xhr.open('GET', 'http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750', true);
+      xhr.send();
+    }
+
+    function loadAndParseData() {
+      var rawdataDiv = document.getElementById('rawdata');
+      var xhr = new XMLHttpRequest();
+      
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var jsonData = JSON.parse(xhr.responseText);
+          parseAndDisplayData(jsonData);
+        }
+      };
+
+      xhr.open('GET', 'http://www.omdbapi.com/?s=star+wars&apikey=cbbc6750', true);
+      xhr.send();
+    }
+
+    function parseAndDisplayData(data) {
+      var rawdataDiv = document.getElementById('rawdata');
+      var tableHtml = '<table border="1"><tr><th>Title</th><th>Year</th><th>Poster</th></tr>';
+
+      for (var i = 0; i < data.Search.length; i++) {
+        tableHtml += '<tr><td>' + data.Search[i].Title + '</td>';
+        tableHtml += '<td>' + data.Search[i].Year + '</td>';
+        tableHtml += '<td><img src="' + data.Search[i].Poster + '" alt="Poster"></td></tr>';
+      }
+
+      tableHtml += '</table>';
+      rawdataDiv.innerHTML = tableHtml;
+    }
+  </script>
+</body>
+</html>
